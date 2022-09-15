@@ -1,0 +1,49 @@
+---
+- name: Manage Users
+  hosts: servera.lab.example.com
+  tasks:
+
+    - name: Create Groups for serverauser user
+      group:
+        name: "{{ item }}"
+        state: present
+        system: no
+      loop:
+        - sys_admins
+        - developers
+
+    - name: Create User serverauser
+      user:
+        name: serverauser
+        password: CHANGE_ME
+        shell: /bin/bash
+        groups: sys_admins,developers,wheel
+        comment: "Sample User"
+        home: /home/serverauser
+        create_home: yes
+        system: no
+
+---
+- name: Manage Users
+  hosts: serverb.lab.example.com
+  tasks:
+
+    - name: Create Groups for serverbuser user
+      group:
+        name: "{{ item }}"
+        state: present
+        system: no
+      loop:
+        - sys_admins
+        - developers
+
+    - name: Create User serverbuser
+      user:
+        name: serverbuser
+        password: CHANGE_ME
+        shell: /bin/bash
+        groups: sys_admins,developers,wheel
+        comment: "Sample User"
+        home: /home/serverbuser
+        create_home: yes
+        system: no

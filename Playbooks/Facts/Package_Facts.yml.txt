@@ -1,0 +1,16 @@
+--- 
+- name: ejemplo package_facts
+  hosts: servera
+  tasks:
+    - name: recuperar informacion de paquetes instalados en los nodos administrados
+      package_facts:
+        manager: auto
+
+    - name: listar paquetes instalados
+      debug:
+        var: ansible_facts.packages
+
+    - name: verificar la version instalada del paquete yum
+      debug:
+        msg: "La version instalada de yum es {{ ansible_facts.packages['yum'][0].version }}"
+      when: "'yum' in ansible_facts.packages"

@@ -1,0 +1,21 @@
+---
+- name: ejemplo debug
+  hosts: servera.lab.example.com
+  tasks:
+    - name: esta tarea no se va a ejecutar
+      debug:
+        msg: "hola mundo"
+
+    - name: ver la hora
+      shell: "date; /bin/false"
+      register: result
+      ignore_errors: true
+
+    - name: imprimir con debug la hora
+      debug:
+        var: result
+
+    - name: ejecutar tarea en caso de que el comando haya sido exitoso
+      debug:
+        msg: "El comando fue exitoso"
+      when: result.rc == 0
